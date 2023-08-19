@@ -39,14 +39,17 @@ function websockets.public:init(address, serverId)
 
 
   local count = 0;
-  
+
   -- render stuff (latency as well)
   addEventHandler("onClientRender", root, function () 
     if (self.latency) then 
       dxDrawText("voip latency:", 100, 480, 100, 400, tocolor(255,255,255), 1.0, "default");
       dxDrawText(table.toString(self.latency), 100, 500, 100, 400, tocolor(255,255,255), 1.0, "default");
-
+      
+      dxDrawText("VoiceMode: "..getElementData(localPlayer, "voip:mode"), 100, 440, 100, 400, tocolor(255,255,255), 1.0, "default")
       dxDrawText("Speaking: "..getElementData(localPlayer, "voip:talking"), 100, 460, 100, 400, tocolor(255,255,255), 1.0, "default");
+      dxDrawText("Radio: "..tostring(getElementData(localPlayer, "radio:talking")), 100, 420, 100, 400, tocolor(255,255,255), 1.0, "default");
+
     end
   end);
 
@@ -80,14 +83,14 @@ function websockets.public:eventProc (data)
 
   local proc = {
     ["setTS3Data"] = function () 
-      if (voipCore) then 
-        voipCore:updateClient ('pluginVersion', payload.data.pluginVersion);
-        voipCore:updateClient ('pluginUUID', payload.data.uuid);
+      if (VOIP) then 
+        VOIP:updateClient ('pluginVersion', payload.data.pluginVersion);
+        VOIP:updateClient ('pluginUUID', payload.data.uuid);
 
         if (payload.data.talking) then 
-          setElementData(voipCore.serverId, "voip:talking", 1, true);
+          setElementData(VOIP.serverId, "voip:talking", 1, true);
         else
-          setElementData(voipCore.serverId, "voip:talking", 0, true);
+          setElementData(VOIP.serverId, "voip:talking", 0, true);
         end
       end
     end,
@@ -125,7 +128,7 @@ function websockets.public:receiveClientCall(name, payload)
     ["updateTokovoipInfo"] = function () 
     end,
     ["updateTokoVoip"] = function () 
-      if (voipCore) then 
+      if (VOIP) then 
         self:sendMessage("data", payload);
       end
     end,

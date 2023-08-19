@@ -83,9 +83,11 @@ function voip.public:initialize()
     if (getKeyState(self.radioKey) and self.plugin_data.radioChannel ~= -1 and self.config.radioEnabled) then
       self.plugin_data.radioTalking = true;
       self.plugin_data.localRadioClicks = true;
+
       if (self.plugin_data.radioChannel > self.config.radioClickMaxChannel) then
         self.plugin_data.localRadioClicks = false;
       end
+
       if (not getElementData(self.serverId, "radio:talking")) then
         setElementData(self.serverId, "radio:talking", true, true);
       end

@@ -1,19 +1,36 @@
 <meta>
-  <info author="flashii, Itokoyamato(TokoVoip), RadioFX(Thorwe)" version="1.0" />
+  <info author="flashii(rocketmta), Itokoyamato(TokoVoip), RadioFX(Thorwe)" version="1.0" />
 
   <!-- shared -->
   <script src="shared/imports.lua" type="shared" />
 
   <!-- settings -->
   <script src="settings/c_settings.lua" type="client" />
-
+  <script src="settings/s_settings.lua" type="server" />
 
   <!-- core -->
   <script src="core/websockets.lua" type="client"/>
   <script src="core/core.lua" type="client" />
-  <script src="core/c_main.lua" type="client" />
+
+  <!-- handlers -->
+  <script src="handlers/events/network.lua" type="shared" />
+
+  <!-- bundlers -->
+  <script src="handlers/bundler/client/main.lua" type="client" />
+  <script src="handlers/bundler/server/main.lua" type="server" />
+
+  <!-- events -->
+  <script src="handlers/events/client/native.lua" type="client" />
+  <script src="handlers/events/client/refresh.lua" type="client" />
+  
+  <script src="handlers/events/server/refresh.lua" type="server" />
 
   <!-- files -->
   <file src="services/ws/index.html"/>
   <file src="services/ws/websocket.js"/>
+
+
+  <!-- exports -->
+  <export function="addPlayerToRadio" type="shared" />
+  <export function="removePlayerFromRadio" type="shared" />
 </meta> 
